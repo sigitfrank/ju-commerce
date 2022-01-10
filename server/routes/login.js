@@ -17,7 +17,7 @@ const register = () => {
     }
 }
 
-module.exports = {
-    login,
-    register
-}
+module.exports = [
+    login(),
+    register()
+]

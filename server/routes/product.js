@@ -43,10 +43,9 @@ const deleteProduct = () => {
     }
 }
 
-module.exports = {
-    getProducts,
-    getProductDetail,
-    createProduct,
-    updateProduct,
-    deleteProduct
-}
+module.exports = 
+    [getProducts(),
+    getProductDetail(),
+    createProduct(),
+    updateProduct(),
+    deleteProduct()]

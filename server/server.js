@@ -2,9 +2,9 @@ const Hapi = require('@hapi/hapi')
 require('dotenv').config()
 const axios = require('axios')
 const { XMLParser } = require("fast-xml-parser")
-const { getProducts, getProductDetail, createProduct, updateProduct, deleteProduct } = require('./routes/product')
 const validateJWT = require('./middleware/validateJWT.js')
-const { login, register } = require('./routes/login')
+const productRoutes = require('./routes/product')
+const authRoutes = require('./routes/login')
 
 const init = async () => {
     const server = Hapi.server({
@@ -12,7 +12,6 @@ const init = async () => {
         host: process.env.SERVER_HOST,
         routes: { cors: { origin: ['*'] } }
     })
-
     await server.start()
     await server.register(require('hapi-auth-jwt2'))
     server.auth.strategy('jwt', 'jwt',
@@ -62,14 +61,10 @@ const init = async () => {
         }
     })
 
-
-    server.route(login())
-    server.route(register())
-    server.route(getProducts())
-    server.route(getProductDetail())
-    server.route(createProduct())
-    server.route(updateProduct())
-    server.route(deleteProduct())
+    server.route([
+        ...authRoutes,
+        ...productRoutes
+    ])
 
     console.log('Server running on %s', server.info.uri)
 }
