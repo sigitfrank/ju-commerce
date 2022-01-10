@@ -2,7 +2,6 @@ const Hapi = require('@hapi/hapi')
 require('dotenv').config()
 const axios = require('axios')
 const { XMLParser } = require("fast-xml-parser")
-const { v4: uuidv4 } = require('uuid');
 const Boom = require('@hapi/boom');
 const { getProducts, getProductDetail, createProduct, updateProduct, deleteProduct } = require('./routes/product');
 

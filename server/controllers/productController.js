@@ -1,6 +1,7 @@
 
 const pool = require('../database/db.js')
 const Boom = require('@hapi/boom')
+const { v4: uuidv4 } = require('uuid');
 
 const handleGetProducts = async (request, h) => {
     try {
