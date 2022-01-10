@@ -8,7 +8,8 @@ const handleGetProducts = async (request, h) => {
         const response = await pool.query('SELECT * FROM products')
         return {
             status: true,
-            products: response.rows
+            products: response.rows,
+            token:request.headers.authorization
         }
     } catch (error) {
         throw Boom.badRequest('Something went wrong: ' + error.message);

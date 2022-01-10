@@ -2,16 +2,27 @@ const Hapi = require('@hapi/hapi')
 require('dotenv').config()
 const axios = require('axios')
 const { XMLParser } = require("fast-xml-parser")
-const Boom = require('@hapi/boom');
-const { getProducts, getProductDetail, createProduct, updateProduct, deleteProduct } = require('./routes/product');
+const { getProducts, getProductDetail, createProduct, updateProduct, deleteProduct } = require('./routes/product')
+const validateJWT = require('./middleware/validateJWT.js')
+const { login, register } = require('./routes/login')
 
 const init = async () => {
     const server = Hapi.server({
         port: process.env.SERVER_PORT,
-        host: process.env.SERVER_HOST
+        host: process.env.SERVER_HOST,
+        routes: { cors: { origin: ['*'] } }
     })
 
     await server.start()
+    await server.register(require('hapi-auth-jwt2'))
+    server.auth.strategy('jwt', 'jwt',
+        {
+            key: process.env.SERVER_KEY,
+            validate: validateJWT,
+            verifyOptions: { algorithms: ['HS256'] }
+        })
+
+    // server.auth.default('jwt')
 
     server.route({
         method: 'GET',
@@ -52,6 +63,8 @@ const init = async () => {
     })
 
 
+    server.route(login())
+    server.route(register())
     server.route(getProducts())
     server.route(getProductDetail())
     server.route(createProduct())

@@ -6,6 +6,7 @@ const getProducts = () => {
     return {
         method: 'GET',
         path: BASE_PRODUCT_URL,
+        config: { auth: 'jwt' },
         handler: async (request, h) => handleGetProducts(request, h)
     }
 }
