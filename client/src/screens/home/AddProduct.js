@@ -21,7 +21,6 @@ function AddProduct() {
         imageEl.current.classList.remove('d-none')
         setCreateProduct(imageFile, 'image')
     }
-    console.log(createProduct.image)
     return (<>
         <Header />
         <div className="container" style={{
