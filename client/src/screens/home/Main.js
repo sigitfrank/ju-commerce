@@ -4,7 +4,7 @@ import Product from './Product'
 function Main() {
     return (
         <div className='main'>
-            <h3>List of Products</h3>
+            <h3 className='text-center my-3'>List of Products</h3>
             <Product />
         </div>
     )
