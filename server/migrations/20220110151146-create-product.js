@@ -16,13 +16,13 @@ module.exports = {
         unique:true,
       },
       image: {
-        type: Sequelize.STRING
+        type: Sequelize.TEXT
       },
       price: {
         type: Sequelize.INTEGER
       },
       description: {
-        type: Sequelize.STRING,
+        type: Sequelize.TEXT,
         allowNull: true
       },
       created_at: {

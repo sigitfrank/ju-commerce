@@ -1,9 +1,11 @@
 import axios from 'axios'
 import { makeAutoObservable } from 'mobx'
-import { CREATE_PRODUCT_URL, GET_PRODUCTS_URL, LOGIN_URL, PRODUCTS_URL, REGISTER_URL } from '../api/api'
+import { LOGIN_URL, PRODUCTS_URL, REGISTER_URL } from '../api/api'
 import createProductValidation from '../validations/createProductValidation'
 
 export class Store {
+    offset = 0
+    limit = 5
     search = ''
     isAuth = false
     login = {
@@ -86,7 +88,7 @@ export class Store {
 
     postRegister = async () => {
         try {
-            const response = await axios.post(REGISTER_URL, {
+            await axios.post(REGISTER_URL, {
                 fullname: this.register.fullname,
                 email: this.register.email,
                 password: this.register.password,
@@ -131,7 +133,7 @@ export class Store {
         const isValid = createProductValidation(this.product)
         if (!isValid) return
         try {
-            const response = await axios.put(PRODUCTS_URL, formData, {
+            await axios.put(PRODUCTS_URL, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     Authorization: `Bearer ${accessToken}`
@@ -147,7 +149,7 @@ export class Store {
 
     getProducts = async (accessToken) => {
         try {
-            const response = await axios.get(PRODUCTS_URL, {
+            const response = await axios.get(`${PRODUCTS_URL}?offset=${this.offset}&limit=${this.limit}`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 }
@@ -173,7 +175,7 @@ export class Store {
     }
     deleteProduct = async ({ accessToken, id }) => {
         try {
-            const response = await axios.delete(`${PRODUCTS_URL}/${id}`, {
+            await axios.delete(`${PRODUCTS_URL}/${id}`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 }
@@ -184,7 +186,7 @@ export class Store {
             return false
         }
     }
-    setDetailProduct = (value, type)=>{
+    setDetailProduct = (value, type) => {
         if (type === 'name') return this.product.name = value
         if (type === 'price') return this.product.price = value
         if (type === 'description') return this.product.description = value

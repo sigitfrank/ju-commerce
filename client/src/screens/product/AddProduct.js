@@ -1,7 +1,6 @@
 import { observer } from 'mobx-react'
 import React, { useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
-import Footer from '../../components/layout/Footer'
 import Header from '../../components/layout/Header'
 import checkFileType from '../../helpers/checkFileType'
 import { getLocalStorage } from '../../helpers/localStorage'
@@ -72,8 +71,6 @@ function AddProduct() {
                 </div>
             </div>
         </div>
-
-        <Footer />
     </>)
 }
 

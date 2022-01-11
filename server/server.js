@@ -6,6 +6,7 @@ const { XMLParser } = require("fast-xml-parser")
 const validateJWT = require('./middleware/validateJWT.js')
 const productRoutes = require('./routes/product')
 const authRoutes = require('./routes/login')
+const importRoutes = require('./routes/import')
 
 const init = async () => {
     const server = Hapi.server({
@@ -30,47 +31,10 @@ const init = async () => {
 
     // server.auth.default('jwt')
 
-    server.route({
-        method: 'GET',
-        path: '/import',
-        handler: async (request, reply) => {
-
-            const axiosConfig = {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'openapikey': process.env.ELEVANIA_API_KEY,
-                }
-            }
-            try {
-                const response = await axios.get('http://api.elevenia.co.id/rest/prodservices/product/listing?page=1', axiosConfig)
-                const parser = new XMLParser()
-                const { Products: { product } } = parser.parse(response.data)
-                let productList = []
-                for (const data of product) {
-                    const { prdNo } = data
-                    const detailResponse = await axios.get(`http://api.elevenia.co.id/rest/prodservices/product/details/${prdNo}`, axiosConfig)
-                    const detailProduct = parser.parse(detailResponse.data)
-                    const productObj = {
-                        sku: detailProduct.sellerPrdCd,
-                        name: detailProduct.prdNm,
-                        description: detailProduct.htmlDetail,
-                        price: detailProduct.selPrc,
-                        image: detailProduct.prdImage01
-                    }
-                    productList.push(productObj)
-                }
-
-                return productList
-            } catch (error) {
-                console.log(error)
-                return reply.response({ status: false }).code(400)
-            }
-        }
-    })
-
     server.route([
         ...authRoutes,
-        ...productRoutes
+        ...productRoutes,
+        ...importRoutes
     ])
 
 

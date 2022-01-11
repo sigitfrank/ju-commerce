@@ -1,9 +1,11 @@
-import { observer } from 'mobx-react';
+import { observer } from 'mobx-react'
 import React, { useRef, useState } from 'react'
-import Modal from 'react-modal';
-import checkFileType from '../../helpers/checkFileType';
-import { getLocalStorage } from '../../helpers/localStorage';
-import AppStore from '../../store/store';
+import Modal from 'react-modal'
+import checkFileType from '../../helpers/checkFileType'
+import { getLocalStorage } from '../../helpers/localStorage'
+import AppStore from '../../store/store'
+import DOMPurify from 'dompurify'
+
 const customStyles = {
     overlay: {
         position: 'fixed',
@@ -20,8 +22,10 @@ const customStyles = {
         bottom: 'auto',
         marginRight: '-50%',
         transform: 'translate(-50%, -50%)',
+        overflow: 'auto',
+        height: '90vh'
     },
-};
+}
 
 function DetailProduct() {
     const { accessToken } = getLocalStorage()
@@ -33,7 +37,7 @@ function DetailProduct() {
 
     }
     function closeModal() {
-        setProductModalDetail(false);
+        setProductModalDetail(false)
         getProductDetail({ accessToken, id: product.id })
         getProducts(accessToken)
     }
@@ -46,7 +50,7 @@ function DetailProduct() {
         const res = await deleteProduct({ accessToken, id: product.id })
         if (!res) return
         alert('Product deleted successfully')
-        setProductModalDetail(false);
+        setProductModalDetail(false)
     }
 
     const handleChangeImage = (e) => {
@@ -64,6 +68,12 @@ function DetailProduct() {
         setEditable(prev => !prev)
     }
 
+    const renderImg = (product) => {
+        if (!product.image) return ''
+        const isHttp = product.image.includes('http')
+        if (isHttp) return <img src={product.image} alt="product" className='img-fluid' style={{ height: '500px', objectFit: 'cover' }} />
+        return <img src={`data:image/jpeg;base64,${product.image}`} alt="product" className='img-fluid' style={{ height: '500px', objectFit: 'cover' }} />
+    }
     return (
         <div>
             <Modal
@@ -74,12 +84,12 @@ function DetailProduct() {
                 contentLabel="Detail Product"
             >
                 <div className="row">
-                    <div className="col-lg-6">
+                    <div className="col-lg-7 d-flex align-items-center">
                         {
-                            product.image ? <img ref={imageEl} className='img-fluid h-100' src={`data:image/jpeg;base64,${product.image}`} alt={product.name} /> : <img ref={imageEl} src="https://esmokeoutlet.com/assets/front/fashi/img/products/default.png" alt="product" />
+                            renderImg(product)
                         }
                     </div>
-                    <div className="col-lg-6"
+                    <div className="col-lg-5"
                     >
                         {
                             editable ? <FormEdit product={product} handleChangeImage={handleChangeImage} /> : <DetailInfo product={product} />
@@ -90,7 +100,6 @@ function DetailProduct() {
                                     Update
                                 </button>
                             }
-
                             <button className='btn primary mx-1' onClick={handleToggleEditable}>{editable ? 'Cancel' : 'Edit'}</button>
                             {
                                 !editable &&
@@ -115,7 +124,7 @@ const DetailInfo = observer(({ product }) => {
         <p>Price: IDR {product.price}</p>
         <hr />
         <p>Description:</p>
-        <p>{product.description}</p>
+        <p dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(product.description || '-') }}>{ }</p>
     </div>
 })
 

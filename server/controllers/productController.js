@@ -5,8 +5,9 @@ const { v4: uuidv4 } = require('uuid')
 const fs = require('fs')
 
 const handleGetProducts = async (request, h) => {
+    const {offset, limit} = request.query
     try {
-        const response = await pool.query('SELECT id, sku, name, image, description FROM products')
+        const response = await pool.query(`SELECT id, sku, name, image, description FROM products OFFSET ${offset} LIMIT ${limit}`)
         return {
             status: true,
             products: response.rows,

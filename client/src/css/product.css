@@ -1,5 +1,7 @@
 .product-gallery .card {
     margin: .5rem;
+    height: 100vh;
+    overflow: hidden;
 }
 
 .product-gallery .card .card-header img {
