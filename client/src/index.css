@@ -20,3 +20,13 @@ button.primary {
 button.secondary {
     background: #336B87;
 }
+
+.ReactModal__Content {
+    width: 50vw !important;
+}
+
+@media (max-width: 576px) {
+    .ReactModal__Content {
+        width: 90vw !important;
+    }
+}
