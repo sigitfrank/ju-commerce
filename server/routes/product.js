@@ -41,9 +41,18 @@ const createProduct = () => {
 const updateProduct = () => {
     return {
         method: 'PUT',
-        config: { auth: 'jwt' },
         path: BASE_PRODUCT_URL,
-        handler: async (request, h) => handleUpdateProduct(request, h)
+        config: {
+            auth: 'jwt',
+            payload: {
+                // maxBytes: 1024 * 1024 * 5,
+                output: 'file',
+                parse: true,
+                multipart: true,
+                allow: 'multipart/form-data'
+            },
+            handler: async (request, h) => handleUpdateProduct(request, h)
+        }
     }
 }
 

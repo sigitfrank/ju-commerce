@@ -121,6 +121,29 @@ export class Store {
             return false
         }
     }
+    putUpdateProduct = async (accessToken) => {
+        const formData = new FormData()
+        formData.append("id", this.product.id)
+        formData.append("name", this.product.name)
+        formData.append("price", this.product.price)
+        formData.append("description", this.product.description)
+        formData.append("image", this.product.image)
+        const isValid = createProductValidation(this.product)
+        if (!isValid) return
+        try {
+            const response = await axios.put(PRODUCTS_URL, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    Authorization: `Bearer ${accessToken}`
+                }
+            })
+            alert('Product updated successfully')
+            return true
+        } catch (error) {
+            alert(error.response.statusText)
+            return false
+        }
+    }
 
     getProducts = async (accessToken) => {
         try {

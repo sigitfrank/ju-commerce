@@ -50,9 +50,14 @@ const handleCreateProduct = async (request, h) => {
 
 const handleUpdateProduct = async (request, h) => {
     const { id, name, image, price, description } = request.payload
+    let base64String = image
+    if(image.path){
+        const file = fs.readFileSync(image.path)
+        base64String = Buffer.from(file).toString('base64')
+    }
     const queryUpdate = {
         text: 'UPDATE products SET name = $1, image = $2, price = $3, description = $4, updated_at = $5 WHERE id = $6',
-        values: [name, image, price, description, new Date(), id],
+        values: [name, base64String, price, description, new Date(), id],
     }
     try {
         const response = await pool.query(queryUpdate)

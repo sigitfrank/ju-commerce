@@ -29,13 +29,18 @@ function DetailProduct() {
 
     const imageEl = useRef(null)
     const [editable, setEditable] = useState(false)
-    const { getProductDetail, productModalDetail, setProductModalDetail, deleteProduct, product, setDetailProduct } = AppStore
+    const { getProducts, getProductDetail, productModalDetail, setProductModalDetail, deleteProduct, product, setDetailProduct, putUpdateProduct } = AppStore
     function afterOpenModal() {
 
     }
     function closeModal() {
         setProductModalDetail(false);
         getProductDetail({ accessToken, id: product.id })
+        getProducts(accessToken)
+    }
+
+    const handleUpdateProduct = () => {
+        putUpdateProduct(accessToken)
     }
 
     const handleDeleteProduct = async () => {
@@ -82,7 +87,7 @@ function DetailProduct() {
                         }
                         <div className="button-wrapper mt-3">
                             {
-                                editable && <button className="btn secondary me-1">
+                                editable && <button className="btn secondary me-1" onClick={() => handleUpdateProduct()}>
                                     Update
                                 </button>
                             }
