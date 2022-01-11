@@ -6,11 +6,10 @@ const fs = require('fs')
 
 const handleGetProducts = async (request, h) => {
     try {
-        const response = await pool.query('SELECT * FROM products')
+        const response = await pool.query('SELECT id, sku, name, image, description FROM products')
         return {
             status: true,
             products: response.rows,
-            token: request.headers.authorization
         }
     } catch (error) {
         throw Boom.badRequest('Something went wrong: ' + error.message)
@@ -69,7 +68,7 @@ const handleUpdateProduct = async (request, h) => {
 const handleDeleteProduct = async (request, h) => {
     const { id } = request.params
     try {
-        const response = await pool.query('SELECT * FROM products WHERE id = $1', [id])
+        const response = await pool.query('DELETE FROM products WHERE id = $1', [id])
         return {
             status: true,
             product: response.rows[0] || []

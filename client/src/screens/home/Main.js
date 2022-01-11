@@ -1,7 +1,7 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import '../../css/main.css'
-import Product from './Product'
+import Product from '../product/Product'
 function Main() {
     const navigate = useNavigate()
     return (

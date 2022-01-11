@@ -2,7 +2,7 @@ import React from 'react'
 import { Routes, Route } from 'react-router-dom'
 import Login from '../screens/auth/Login'
 import Register from '../screens/auth/Register'
-import AddProduct from '../screens/home/AddProduct'
+import AddProduct from '../screens/product/AddProduct'
 import Home from '../screens/home/Home'
 
 function RoutesApp() {

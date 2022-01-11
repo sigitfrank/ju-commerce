@@ -15,7 +15,7 @@ function AddProduct() {
 
     useEffect(() => {
         if (!accessToken) navigate('/login')
-    }, [accessToken])
+    }, [accessToken, navigate])
 
     const handleChangeImage = (e) => {
         const imageFile = e.target.files[0]
@@ -40,7 +40,7 @@ function AddProduct() {
         }}>
             <div className="row">
                 <div className="col-lg-6">
-                    <img ref={imageEl} className='img-fluid' src="https://dynamic.zacdn.com/DUtm84aNQgzUT6OtfdW83PfrkBw=/fit-in/346x500/filters:quality(90):fill(ffffff)/https://static-id.zacdn.com/p/hm-4881-8613572-1.jpg" alt="hoodie" />
+                    <img ref={imageEl} className='img-fluid h-100' src="https://esmokeoutlet.com/assets/front/fashi/img/products/default.png" alt="hoodie" />
                 </div>
                 <div className="col-lg-6"
                 >

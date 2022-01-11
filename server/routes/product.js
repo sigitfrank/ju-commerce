@@ -1,6 +1,6 @@
 
 const { BASE_PRODUCT_URL } = require('../api/v1/endpoint.js')
-const { handleDeleteProduct, handleGetProducts, handleCreateProduct, handleUpdateProduct } = require('../controllers/productController.js')
+const { handleDeleteProduct, handleGetProducts, handleCreateProduct, handleUpdateProduct, handleGetProductDetail } = require('../controllers/productController.js')
 
 const getProducts = () => {
     return {
@@ -15,7 +15,8 @@ const getProductDetail = () => {
     return {
         method: 'GET',
         path: `${BASE_PRODUCT_URL}/{id}`,
-        handler: async (request, h) => handleDeleteProduct(request, h)
+        config: { auth: 'jwt' },
+        handler: async (request, h) => handleGetProductDetail(request, h)
     }
 }
 
@@ -24,6 +25,7 @@ const createProduct = () => {
         method: 'POST',
         path: BASE_PRODUCT_URL,
         config: {
+            auth: 'jwt',
             payload: {
                 // maxBytes: 1024 * 1024 * 5,
                 output: 'file',
@@ -39,6 +41,7 @@ const createProduct = () => {
 const updateProduct = () => {
     return {
         method: 'PUT',
+        config: { auth: 'jwt' },
         path: BASE_PRODUCT_URL,
         handler: async (request, h) => handleUpdateProduct(request, h)
     }
@@ -47,6 +50,7 @@ const updateProduct = () => {
 const deleteProduct = () => {
     return {
         method: 'DELETE',
+        config: { auth: 'jwt' },
         path: `${BASE_PRODUCT_URL}/{id}`,
         handler: async (request, h) => handleDeleteProduct(request, h)
     }

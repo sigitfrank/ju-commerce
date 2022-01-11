@@ -1,19 +1,22 @@
-import React, {useEffect} from 'react'
+import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import AppStore from '../../store/store'
 import jwt_decode from "jwt-decode";
 import { getLocalStorage } from '../../helpers/localStorage';
+import { observer } from 'mobx-react';
 
 function Header() {
-    const {postLogout} = AppStore
+    const { postLogout, search, setSearch, postSearch } = AppStore
     const { accessToken } = getLocalStorage()
     const decoded = accessToken ? jwt_decode(accessToken) : ''
     const navigate = useNavigate()
     const handlePostLogout = () => {
         postLogout()
         navigate('/login')
-
     }
+
+
+
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
             <div className="container-fluid">
@@ -33,8 +36,8 @@ function Header() {
                         </li>
                     </ul>
                     <form className="d-flex">
-                        <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-                        <button className="btn primary" type="submit">Search</button>
+                        <input value={search} onChange={(e) => setSearch(e.target.value)} className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
+                        <button className="btn primary" type="button" onClick={postSearch}>Search</button>
                     </form>
                 </div>
             </div>
@@ -42,4 +45,4 @@ function Header() {
     )
 }
 
-export default Header
+export default observer(Header)

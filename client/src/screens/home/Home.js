@@ -10,7 +10,7 @@ function Home() {
     const navigate = useNavigate()
     useEffect(() => {
         if (!accessToken) navigate('/login')
-    }, [accessToken])
+    }, [accessToken, navigate])
     return (<>
         <Header />
         <Main />
