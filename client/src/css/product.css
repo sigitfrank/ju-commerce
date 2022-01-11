@@ -1,0 +1,17 @@
+.product-gallery .card {
+    margin: .5rem;
+}
+
+.product-gallery .card .card-header img {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+}
+
+.product-gallery .card .card-body .card-title {
+    font-weight: 600;
+}
+
+.product-gallery .card .card-body .card-description {
+    color: #545454
+}
