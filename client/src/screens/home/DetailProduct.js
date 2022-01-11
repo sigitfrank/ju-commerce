@@ -1,5 +1,7 @@
+import { observer } from 'mobx-react';
 import React, { useState } from 'react'
 import Modal from 'react-modal';
+import AppStore from '../../store/store';
 const customStyles = {
     overlay: {
         position: 'fixed',
@@ -21,22 +23,18 @@ const customStyles = {
 };
 
 function DetailProduct() {
-    const [modalIsOpen, setIsOpen] = React.useState(false);
     const [ediatable, setEdiatable] = useState(false)
-    function openModal() {
-        setIsOpen(true);
-    }
+    const { productModalDetail, setProductModalDetail } = AppStore
     function afterOpenModal() {
 
     }
     function closeModal() {
-        setIsOpen(false);
+        setProductModalDetail(false);
     }
     return (
         <div>
-            <button onClick={openModal}>Open Modal</button>
             <Modal
-                isOpen={modalIsOpen}
+                isOpen={productModalDetail}
                 onAfterOpen={afterOpenModal}
                 onRequestClose={closeModal}
                 style={customStyles}
@@ -66,7 +64,7 @@ function DetailProduct() {
     )
 }
 
-export default DetailProduct
+export default observer(DetailProduct)
 
 const DetailInfo = () => {
     return <div className="info">

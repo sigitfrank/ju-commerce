@@ -1,7 +1,10 @@
 import React from 'react'
 import '../../css/product.css'
+import AppStore from '../../store/store'
 import DetailProduct from './DetailProduct'
 function Product() {
+    const { setProductModalDetail } = AppStore
+
     return (
         <>
             <div className='container product-gallery'>
@@ -9,7 +12,7 @@ function Product() {
                     <div className="col-lg-4">
                         <div className="card">
                             <div className="card-header text-center">
-                                <img src="https://dynamic.zacdn.com/DUtm84aNQgzUT6OtfdW83PfrkBw=/fit-in/346x500/filters:quality(90):fill(ffffff)/https://static-id.zacdn.com/p/hm-4881-8613572-1.jpg" alt="hoodie" />
+                                <img src="https://dynamic.zacdn.com/DUtm84aNQgzUT6OtfdW83PfrkBw=/fit-in/346x500/filters:quality(90):fill(ffffff)/https://static-id.zacdn.com/p/hm-4881-8613572-1.jpg" alt="hoodie" onClick={() => setProductModalDetail(true)} />
                             </div>
                             <div className="card-body">
                                 <p className="card-title">
@@ -29,3 +32,4 @@ function Product() {
 }
 
 export default Product
+
