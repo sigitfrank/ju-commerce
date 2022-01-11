@@ -1,7 +1,8 @@
 
 const pool = require('../database/db.js')
 const Boom = require('@hapi/boom')
-const { v4: uuidv4 } = require('uuid');
+const { v4: uuidv4 } = require('uuid')
+const fs = require('fs')
 
 const handleGetProducts = async (request, h) => {
     try {
@@ -9,10 +10,10 @@ const handleGetProducts = async (request, h) => {
         return {
             status: true,
             products: response.rows,
-            token:request.headers.authorization
+            token: request.headers.authorization
         }
     } catch (error) {
-        throw Boom.badRequest('Something went wrong: ' + error.message);
+        throw Boom.badRequest('Something went wrong: ' + error.message)
     }
 }
 
@@ -25,16 +26,17 @@ const handleGetProductDetail = async (request, h) => {
             product: response.rows[0] || []
         }
     } catch (error) {
-        throw Boom.badRequest('Something went wrong: ' + error.message);
+        throw Boom.badRequest('Something went wrong: ' + error.message)
     }
 }
 
 const handleCreateProduct = async (request, h) => {
-
     const { name, image, price, description } = request.payload
+    const file = fs.readFileSync(image.path)
+    const base64String = Buffer.from(file).toString('base64')
     const queryInsert = {
         text: 'INSERT INTO products (sku, name, image, price, description, created_at) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
-        values: [uuidv4(), name, image, price, description, new Date()],
+        values: [uuidv4(), name, base64String, price, description, new Date()],
     }
     try {
         const response = await pool.query(queryInsert)
@@ -43,7 +45,7 @@ const handleCreateProduct = async (request, h) => {
             data: response.rows[0]
         }
     } catch (error) {
-        throw Boom.badRequest('Something went wrong: ' + error.message);
+        throw Boom.badRequest('Something went wrong: ' + error.message)
     }
 }
 
@@ -60,7 +62,7 @@ const handleUpdateProduct = async (request, h) => {
             message: response.rowCount > 0 ? 'Product updated succesfully' : 'Product not found'
         }
     } catch (error) {
-        throw Boom.badRequest('Something went wrong: ' + error.message);
+        throw Boom.badRequest('Something went wrong: ' + error.message)
     }
 }
 
@@ -73,7 +75,7 @@ const handleDeleteProduct = async (request, h) => {
             product: response.rows[0] || []
         }
     } catch (error) {
-        throw Boom.badRequest('Something went wrong: ' + error.message);
+        throw Boom.badRequest('Something went wrong: ' + error.message)
     }
 }
 

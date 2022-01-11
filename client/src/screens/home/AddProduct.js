@@ -1,15 +1,21 @@
 import { observer } from 'mobx-react'
-import React, { useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Footer from '../../components/layout/Footer'
 import Header from '../../components/layout/Header'
 import checkFileType from '../../helpers/checkFileType'
+import { getLocalStorage } from '../../helpers/localStorage'
 import AppStore from '../../store/store'
 
 function AddProduct() {
     const navigate = useNavigate()
-    const { createProduct, setCreateProduct } = AppStore
+    const { createProduct, setCreateProduct, postCreateProduct } = AppStore
     const imageEl = useRef(null)
+    const { accessToken } = getLocalStorage()
+
+    useEffect(() => {
+        if (!accessToken) navigate('/login')
+    }, [accessToken])
 
     const handleChangeImage = (e) => {
         const imageFile = e.target.files[0]
@@ -21,11 +27,16 @@ function AddProduct() {
         imageEl.current.classList.remove('d-none')
         setCreateProduct(imageFile, 'image')
     }
+
+    const handleCreateProduct = ()=>{
+        const res = postCreateProduct(accessToken)
+        if(!res) return
+        navigate('/')
+    }
     return (<>
         <Header />
         <div className="container" style={{
             padding: '1rem'
-
         }}>
             <div className="row">
                 <div className="col-lg-6">
@@ -52,7 +63,7 @@ function AddProduct() {
                         </div>
                     </form>
                     <div className="button-wrapper mt-3">
-                        <button className="btn secondary me-1">
+                        <button className="btn secondary me-1" onClick={handleCreateProduct}>
                             Add Product
                         </button>
 

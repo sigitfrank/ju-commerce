@@ -23,7 +23,16 @@ const createProduct = () => {
     return {
         method: 'POST',
         path: BASE_PRODUCT_URL,
-        handler: async (request, h) => handleCreateProduct(request, h)
+        config: {
+            payload: {
+                // maxBytes: 1024 * 1024 * 5,
+                output: 'file',
+                parse: true,
+                multipart: true,
+                allow: 'multipart/form-data'
+            },
+            handler: async (request, h) => handleCreateProduct(request, h)
+        }
     }
 }
 

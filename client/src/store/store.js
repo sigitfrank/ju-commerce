@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { makeAutoObservable } from 'mobx'
-import { LOGIN_URL, REGISTER_URL } from '../api/api'
+import { CREATE_PRODUCT_URL, LOGIN_URL, REGISTER_URL } from '../api/api'
+import createProductValidation from '../validations/createProductValidation'
 
 export class Store {
     isAuth = false
@@ -86,6 +87,28 @@ export class Store {
             return true
         } catch (error) {
             console.log(error)
+            return false
+        }
+    }
+
+    postCreateProduct = async (accessToken) => {
+        const formData = new FormData()
+        formData.append("name", this.createProduct.name)
+        formData.append("price", this.createProduct.price)
+        formData.append("description", this.createProduct.description)
+        formData.append("image", this.createProduct.image)
+        const isValid = createProductValidation(this.createProduct)
+        if (!isValid) return
+        try {
+            const response = await axios.post(CREATE_PRODUCT_URL, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    Authorization: `Bearer ${accessToken}`
+                }
+            })
+            alert('Product created successfully')
+            return true
+        } catch (error) {
             return false
         }
     }
