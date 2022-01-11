@@ -4,6 +4,7 @@ import './index.css'
 const App = () => {
   return (
     <Router>
+      {/* <img src={`data:image/jpeg;base64,${binary_data}`} /> */}
       <RoutesApp />
     </Router>
   )
