@@ -4,10 +4,20 @@ import { useNavigate } from "react-router-dom"
 import { ClosedEye, Eye } from '../../components/Icons/Eyes'
 import { observer } from 'mobx-react'
 import AppStore from '../../store/store'
+import { setLocalStorage } from '../../helpers/localStorage'
 const Login = () => {
     const navigate = useNavigate()
     const [shown, setShown] = useState(false)
-    const { login, setLoginState } = AppStore
+    const { login, setLoginState, postLogin, setIsAuth } = AppStore
+
+    const handleLogin = async () => {
+        const res = await postLogin()
+        if (!res) return alert('Something went wrong')
+        setIsAuth(true)
+        setLocalStorage(res.accessToken)
+        navigate('/')
+    }
+
     return (
         <div className='section-auth'>
             <div className='container'>
@@ -31,7 +41,7 @@ const Login = () => {
                                 <small id="helpId" className="text-muted">Password</small>
                             </div>
                             <div className="btn-wrapper">
-                                <button className="btn primary me-1">
+                                <button className="btn primary me-1" onClick={handleLogin}>
                                     Login
                                 </button>
                                 <button className="btn secondary ms-1" onClick={() => navigate('/register')}>

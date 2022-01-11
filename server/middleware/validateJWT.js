@@ -1,2 +1,5 @@
-const validateJWT = (decoded, request, h) => !decoded.email ? { isValid: false } : { isValid: true }
+const validateJWT = (decoded, request, h) => {
+
+    return !decoded.email ? { isValid: false } : { isValid: true }
+}
 module.exports = validateJWT
