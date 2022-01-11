@@ -2,8 +2,12 @@ import React, { useState } from 'react'
 import '../../css/auth.css'
 import { useNavigate } from "react-router-dom"
 import { ClosedEye, Eye } from '../../components/Icons/Eyes'
+import { observer } from 'mobx-react'
+import AppStore from '../../store/store'
 function Register() {
     const navigate = useNavigate()
+    const { register, setRegisterState } = AppStore
+
     const [shown, setShown] = useState({
         password: false,
         confirmPassword: false
@@ -21,18 +25,18 @@ function Register() {
                             <h2>Register</h2>
                             <div className="form-group">
                                 <label htmlFor=""></label>
-                                <input type="text" name="" id="" className="form-control" placeholder="ex: Sigit Tunggul Waskito" />
+                                <input type="text" name="fullname" value={register.fullname} id="fullname" onChange={(e) => setRegisterState(e.target.value, 'fullname')} className="form-control" placeholder="ex: Sigit Tunggul Waskito" />
                                 <small id="helpId" className="text-muted">Fullname</small>
                             </div>
                             <div className="form-group">
                                 <label htmlFor=""></label>
-                                <input type="text" name="" id="" className="form-control" placeholder="ex: sigit@gmail.com" />
+                                <input type="text" name="email" id="email" value={register.email} onChange={(e) => setRegisterState(e.target.value, 'email')} className="form-control" placeholder="ex: sigit@gmail.com" />
                                 <small id="helpId" className="text-muted">Email</small>
                             </div>
                             <div className="form-group">
                                 <label htmlFor=""></label>
                                 <div style={{ position: 'relative' }}>
-                                    <input type={shown.password ? 'text' : 'password'} name="" id="" className="form-control" placeholder="******" />
+                                    <input type={shown.password ? 'text' : 'password'} value={register.password} onChange={(e) => setRegisterState(e.target.value, 'password')} name="password" id="password" className="form-control" placeholder="******" />
                                     <span style={{ position: 'absolute', top: "5px", right: '10px', cursor: 'pointer' }} onClick={() => handleTogglePassword('password')}>
                                         {shown.password ? <Eye /> : <ClosedEye />}
                                     </span>
@@ -42,7 +46,7 @@ function Register() {
                             <div className="form-group">
                                 <label htmlFor=""></label>
                                 <div style={{ position: 'relative' }}>
-                                    <input type={shown.confirmPassword ? 'text' : 'password'} name="" id="" className="form-control" placeholder="******" />
+                                    <input type={shown.confirmPassword ? 'text' : 'password'} value={register.confirmPassword} onChange={(e) => setRegisterState(e.target.value, 'confirmPassword')} name="confirmPassword" id="confirmPassword" className="form-control" placeholder="******" />
                                     <span style={{ position: 'absolute', top: "5px", right: '10px', cursor: 'pointer' }} onClick={() => handleTogglePassword('confirmPassword')}>
                                         {shown.confirmPassword ? <Eye /> : <ClosedEye />}
                                     </span>
@@ -65,4 +69,4 @@ function Register() {
     )
 }
 
-export default Register
+export default observer(Register)

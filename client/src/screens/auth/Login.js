@@ -2,10 +2,12 @@ import React, { useState } from 'react'
 import '../../css/auth.css'
 import { useNavigate } from "react-router-dom"
 import { ClosedEye, Eye } from '../../components/Icons/Eyes'
-function Login() {
+import { observer } from 'mobx-react'
+import AppStore from '../../store/store'
+const Login = () => {
     const navigate = useNavigate()
     const [shown, setShown] = useState(false)
-
+    const { login, setLoginState } = AppStore
     return (
         <div className='section-auth'>
             <div className='container'>
@@ -15,13 +17,13 @@ function Login() {
                             <h2>Welcome to My App</h2>
                             <div className="form-group">
                                 <label htmlFor=""></label>
-                                <input type="text" name="" id="" className="form-control" placeholder="ex: sigit@gmail.com" />
+                                <input type="text" value={login.email} onChange={(e) => setLoginState(e.target.value, 'email')} name="email" id="email" className="form-control" placeholder="ex: sigit@gmail.com" />
                                 <small id="helpId" className="text-muted">Email</small>
                             </div>
                             <div className="form-group">
                                 <label htmlFor=""></label>
                                 <div style={{ position: 'relative' }}>
-                                    <input type={shown ? 'text' : 'password'} name="" id="" className="form-control" placeholder="******" />
+                                    <input value={login.password} type={shown ? 'text' : 'password'} onChange={(e) => setLoginState(e.target.value, 'password')} name="password" id="password" className="form-control" placeholder="******" />
                                     <span style={{ position: 'absolute', top: "5px", right: '10px', cursor: 'pointer' }} onClick={() => setShown(prev => !prev)}>
                                         {shown ? <Eye /> : <ClosedEye />}
                                     </span>
@@ -44,4 +46,4 @@ function Login() {
     )
 }
 
-export default Login
+export default observer(Login)
