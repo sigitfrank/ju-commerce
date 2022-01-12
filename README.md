@@ -8,7 +8,7 @@ To run client side. Open your project in your Code Editor.
 Run **npm install** to install required packages before running application.
 
 ### `npm start`
-After running **npm install**, you can run 'npm start' in your current directory to run the application. Wait until the process finished, it will automatically open your app in your default browser.
+After running **npm install**, you can run **npm start** in your current directory to run the application. Wait until the process finished, it will automatically open your app in your default browser.
 
 
 ## Server Side
