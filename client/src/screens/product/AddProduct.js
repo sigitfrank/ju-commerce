@@ -39,7 +39,7 @@ function AddProduct() {
         }}>
             <div className="row">
                 <div className="col-lg-6">
-                    <img ref={imageEl} className='img-fluid h-100' src="https://esmokeoutlet.com/assets/front/fashi/img/products/default.png" alt="hoodie" />
+                    <img ref={imageEl} className='img-fluid h-100' src="https://esmokeoutlet.com/assets/front/fashi/img/products/default.png" alt="product" />
                 </div>
                 <div className="col-lg-6"
                 >

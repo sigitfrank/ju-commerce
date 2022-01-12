@@ -32,14 +32,14 @@ function DetailProduct() {
 
     const imageEl = useRef(null)
     const [editable, setEditable] = useState(false)
-    const { getProducts, getProductDetail, productModalDetail, setProductModalDetail, deleteProduct, product, setDetailProduct, putUpdateProduct } = AppStore
+    const { getProducts, getProductDetail,offset, productModalDetail, setProductModalDetail, deleteProduct, product, setDetailProduct, putUpdateProduct } = AppStore
     function afterOpenModal() {
 
     }
     function closeModal() {
         setProductModalDetail(false)
         getProductDetail({ accessToken, id: product.id })
-        getProducts(accessToken)
+        getProducts({accessToken, offset})
     }
 
     const handleUpdateProduct = () => {
@@ -69,10 +69,11 @@ function DetailProduct() {
     }
 
     const renderImg = (product) => {
-        if (!product.image) return ''
-        const isHttp = product.image.includes('http')
-        if (isHttp) return <img src={product.image} alt="product" className='img-fluid' style={{ height: '500px', objectFit: 'cover' }} />
-        return <img src={`data:image/jpeg;base64,${product.image}`} alt="product" className='img-fluid' style={{ height: '500px', objectFit: 'cover' }} />
+        if (!product.image) return <img ref={imageEl} src={'https://esmokeoutlet.com/assets/front/fashi/img/products/default.png'} alt="product" className='img-fluid' style={{ height: '500px', objectFit: 'cover' }} />
+        let isHttp = ''
+        if(typeof product.image !== 'object')isHttp = product.image.includes('http')
+        if (isHttp) return <img ref={imageEl} src={product.image} alt="product" className='img-fluid' style={{ height: '500px', objectFit: 'cover' }} />
+        return <img ref={imageEl} src={`data:image/jpeg;base64,${product.image}`} alt="product" className='img-fluid' style={{ height: '500px', objectFit: 'cover' }} />
     }
     return (
         <div>

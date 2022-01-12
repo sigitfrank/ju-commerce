@@ -19,9 +19,8 @@ function Product() {
         setProductModalDetail(showModal)
         getProductDetail({ accessToken, id: productId })
     }
-
     const renderImg = (product) => {
-        if (!product.image) return ''
+        if (!product.image) return <img src={'https://esmokeoutlet.com/assets/front/fashi/img/products/default.png'} alt="product" onClick={() => handleProductDetail(product.id, true)} />
         const isHttp = product.image.includes('http')
         if (isHttp) return <img src={product.image} alt="product" onClick={() => handleProductDetail(product.id, true)} />
         return <img src={`data:image/jpeg;base64,${product.image}`} alt="product" onClick={() => handleProductDetail(product.id, true)} />

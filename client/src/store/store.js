@@ -35,13 +35,13 @@ export class Store {
         makeAutoObservable(this)
     }
 
-    setOffset = ()=>{
+    setOffset = () => {
         this.offset = this.offset + 5
     }
 
     setSearch = (value) => {
         if (!value) {
-            this.getProducts(localStorage.getItem('userAccessToken'))
+            this.getProducts({ accessToken: localStorage.getItem('userAccessToken'), offset: 0 })
         }
         this.search = value
     }
@@ -154,7 +154,7 @@ export class Store {
         }
     }
 
-    getProducts = async ({accessToken, offset}) => {
+    getProducts = async ({ accessToken, offset }) => {
         this.isLoading = true
         try {
             const response = await axios.get(`${PRODUCTS_URL}?offset=${offset}&limit=${this.limit}`, {
@@ -163,14 +163,14 @@ export class Store {
                 }
             })
             this.isLoading = false
-            if(response.data.products.length === 0) {
+            if (response.data.products.length === 0) {
                 const oldProducts = this.products.slice(this.offsetInfinite, this.limitInfinite)
                 this.limitInfinite += 5
                 this.offsetInfinite += 5
                 this.products = [...this.products, ...oldProducts]
-                return 
+                return
             }
-            if(offset === 0) return this.products = response.data.products
+            if (offset === 0) return this.products = response.data.products
             this.products = [...this.products, ...response.data.products]
             return true
         } catch (error) {
