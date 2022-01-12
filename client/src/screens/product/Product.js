@@ -2,13 +2,13 @@ import { observer } from 'mobx-react'
 import React, { useEffect } from 'react'
 import '../../css/product.css'
 import { getLocalStorage } from '../../helpers/localStorage'
-import AppStore from '../../store/store'
 import DetailProduct from './DetailProduct'
 import DOMPurify from 'dompurify'
+import ProductStore from '../../store/productStore'
 
 
 function Product() {
-    const { setProductModalDetail, getProducts, products, getProductDetail, offset, setOffset, isLoading } = AppStore
+    const { setProductModalDetail, getProducts, products, getProductDetail, offset, setOffset, isLoading } = ProductStore
     const { accessToken } = getLocalStorage()
 
     useEffect(() => {

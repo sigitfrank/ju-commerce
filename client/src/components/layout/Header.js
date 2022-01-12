@@ -4,9 +4,11 @@ import AppStore from '../../store/store'
 import jwt_decode from "jwt-decode";
 import { getLocalStorage } from '../../helpers/localStorage';
 import { observer } from 'mobx-react';
+import ProductStore from '../../store/productStore';
 
 function Header() {
-    const { postLogout, search, setSearch, postSearch } = AppStore
+    const { postLogout } = AppStore
+    const {search, setSearch, postSearch} = ProductStore
     const { accessToken } = getLocalStorage()
     const decoded = accessToken ? jwt_decode(accessToken) : ''
     const navigate = useNavigate()

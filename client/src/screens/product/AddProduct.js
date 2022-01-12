@@ -4,11 +4,11 @@ import { useNavigate } from 'react-router-dom'
 import Header from '../../components/layout/Header'
 import checkFileType from '../../helpers/checkFileType'
 import { getLocalStorage } from '../../helpers/localStorage'
-import AppStore from '../../store/store'
+import ProductStore from '../../store/productStore'
 
 function AddProduct() {
     const navigate = useNavigate()
-    const { createProduct, setCreateProduct, postCreateProduct } = AppStore
+    const { createProduct, setCreateProduct, postCreateProduct } = ProductStore
     const imageEl = useRef(null)
     const { accessToken } = getLocalStorage()
 

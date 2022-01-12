@@ -3,8 +3,8 @@ import React, { useRef, useState } from 'react'
 import Modal from 'react-modal'
 import checkFileType from '../../helpers/checkFileType'
 import { getLocalStorage } from '../../helpers/localStorage'
-import AppStore from '../../store/store'
 import DOMPurify from 'dompurify'
+import ProductStore from '../../store/productStore'
 
 const customStyles = {
     overlay: {
@@ -32,14 +32,14 @@ function DetailProduct() {
 
     const imageEl = useRef(null)
     const [editable, setEditable] = useState(false)
-    const { getProducts, getProductDetail,offset, productModalDetail, setProductModalDetail, deleteProduct, product, setDetailProduct, putUpdateProduct } = AppStore
+    const { getProducts, getProductDetail, offset, productModalDetail, setProductModalDetail, deleteProduct, product, setDetailProduct, putUpdateProduct } = ProductStore
     function afterOpenModal() {
 
     }
     function closeModal() {
         setProductModalDetail(false)
         getProductDetail({ accessToken, id: product.id })
-        getProducts({accessToken, offset})
+        getProducts({ accessToken, offset })
     }
 
     const handleUpdateProduct = () => {
@@ -71,7 +71,7 @@ function DetailProduct() {
     const renderImg = (product) => {
         if (!product.image) return <img ref={imageEl} src={'https://esmokeoutlet.com/assets/front/fashi/img/products/default.png'} alt="product" className='img-fluid' style={{ height: '500px', objectFit: 'cover' }} />
         let isHttp = ''
-        if(typeof product.image !== 'object')isHttp = product.image.includes('http')
+        if (typeof product.image !== 'object') isHttp = product.image.includes('http')
         if (isHttp) return <img ref={imageEl} src={product.image} alt="product" className='img-fluid' style={{ height: '500px', objectFit: 'cover' }} />
         return <img ref={imageEl} src={`data:image/jpeg;base64,${product.image}`} alt="product" className='img-fluid' style={{ height: '500px', objectFit: 'cover' }} />
     }
@@ -130,7 +130,7 @@ const DetailInfo = observer(({ product }) => {
 })
 
 const FormEdit = observer(({ product, handleChangeImage }) => {
-    const { setDetailProduct } = AppStore
+    const { setDetailProduct } = ProductStore
     return <form className="">
         <div className="form-group mb-3">
             <label htmlFor="name">Name</label>
