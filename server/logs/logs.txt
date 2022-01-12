@@ -1,3 +1,4 @@
+statusCode=200 method=get path=/v1/import origin=undefined recv=0/463 sent=15/316 start=Wed Jan 12 2022 14:42:11 GMT+0700 (Indochina Time) finish=Wed Jan 12 2022 14:42:11 GMT+0700 (Indochina Time) duration=17ms
 statusCode=200 method=get path=/v1/products origin=http://localhost:3001 recv=0/721 sent=2357/1203 start=Wed Jan 12 2022 14:30:00 GMT+0700 (Indochina Time) finish=Wed Jan 12 2022 14:30:00 GMT+0700 (Indochina Time) duration=7ms
 statusCode=200 method=get path=/v1/products origin=http://localhost:3001 recv=0/721 sent=3561/1791 start=Wed Jan 12 2022 14:29:59 GMT+0700 (Indochina Time) finish=Wed Jan 12 2022 14:29:59 GMT+0700 (Indochina Time) duration=4ms
 statusCode=200 method=get path=/v1/products origin=http://localhost:3001 recv=0/721 sent=11743/2931 start=Wed Jan 12 2022 14:29:58 GMT+0700 (Indochina Time) finish=Wed Jan 12 2022 14:29:58 GMT+0700 (Indochina Time) duration=4ms
