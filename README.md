@@ -17,10 +17,10 @@ To run server side. Open your project in your Code Editor.
 ### `npm install`
 Run 'npm install' to install required packages before running application.
 
-### Setting .env
+### `Setting .env`
 Create and configure your env configuration based on your computer/server settings. There is a .env.example you can use if you want, which is my configuration.
 
-### Setting config.json
+### `Setting config.json`
 Another to configure is config.json. There is a config/config.json file to be used for migration. But, it's not needed to change if your config.json setting is same with mine.
 
 ### `Run Migration For Database`
