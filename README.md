@@ -24,7 +24,7 @@ Create and configure your env configuration based on your computer/server settin
 Another to configure is config.json. There is a config/config.json file to be used for migration. But, it's not needed to change if your config.json setting is same with mine.
 
 ### `Run Migration For Database`
-Before running the applocation, you have to run command 'npm run db' to automatically create database in your machine. It will create database based on your config/config.json configuration.
+Before running the application, you have to run command 'npm run db' to automatically create database in your machine. It will create database based on your config/config.json configuration.
 
 ### `Run Migration For Tables`
 After running migration for database, you have to run command 'npm run migarate' to automatically create tables in your database. It will create tables based on your config/config.json configuration.
