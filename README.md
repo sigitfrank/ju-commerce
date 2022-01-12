@@ -12,7 +12,7 @@ After running 'npm install', you can run 'npm start' in your current directory t
 
 
 ## Server Side
-To run server side. Open your project in your Code Editor
+To run server side. Open your project in your Code Editor.
 
 ### `npm install`
 Run 'npm install' to install required packages before running application.
