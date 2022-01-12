@@ -33,7 +33,7 @@ After running migration for database, you have to run command 'npm run migarate'
 After all the configurations are ready. You have to run command 'npm run devStart' to run the application with nodemon or you can run command 'npm run start' to start it without autorestart the application.
 
 ## `Import Data from Elevenia API`
-To import data product to your database, I provide endpoint BASE_URL_BACKEND/v1/import. Please kindly to access this endpoint to get data into your database. Thank you.
+To import data product to your database, I provide endpoint BASE_URL_BACKEND/v1/import (ex: http://localhost:5000/v1/import, because I set my backend PORT to 5000). Please kindly to access this endpoint in your browser to get data into your database. Thank you.
 
 # All SET UP!
 After backend is ready, you can use client side properly.
