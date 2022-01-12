@@ -55,7 +55,7 @@ class ProductStore {
         formData.append("description", this.createProduct.description)
         formData.append("image", this.createProduct.image)
         const isValid = createProductValidation(this.createProduct)
-        if (!isValid) return
+        if (!isValid) return false
         try {
             const response = await axios.post(PRODUCTS_URL, formData, {
                 headers: {
@@ -67,6 +67,7 @@ class ProductStore {
             this.products.push(response.data.data)
             return true
         } catch (error) {
+            alert(error.response.data.message)
             return false
         }
     }
@@ -89,7 +90,7 @@ class ProductStore {
             alert('Product updated successfully')
             return true
         } catch (error) {
-            alert(error.response.statusText)
+            alert(error.response.data.message)
             return false
         }
     }
@@ -141,6 +142,7 @@ class ProductStore {
             this.products = this.products.filter(product => product.id !== id)
             return true
         } catch (error) {
+            alert(error.response.data.message)
             return false
         }
     }

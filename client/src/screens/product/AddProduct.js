@@ -27,8 +27,8 @@ function AddProduct() {
         setCreateProduct(imageFile, 'image')
     }
 
-    const handleCreateProduct = ()=>{
-        const res = postCreateProduct(accessToken)
+    const handleCreateProduct = async ()=>{
+        const res = await postCreateProduct(accessToken)
         if(!res) return
         navigate('/')
     }
