@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react'
-import React, { useEffect, useRef } from 'react'
+import React, { useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Header from '../../components/layout/Header'
 import checkFileType from '../../helpers/checkFileType'
@@ -11,10 +11,6 @@ function AddProduct() {
     const { createProduct, setCreateProduct, postCreateProduct } = ProductStore
     const imageEl = useRef(null)
     const { accessToken } = getLocalStorage()
-
-    useEffect(() => {
-        if (!accessToken) navigate('/login')
-    }, [accessToken, navigate])
 
     const handleChangeImage = (e) => {
         const imageFile = e.target.files[0]

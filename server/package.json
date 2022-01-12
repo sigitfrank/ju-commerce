@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "lab -v ./test/product.test.js",
     "migrate": "npx sequelize-cli db:migrate",
     "db": "npx sequelize-cli db:create",
     "start": "node server.js",
@@ -30,6 +30,8 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
+    "@hapi/code": "^8.0.5",
+    "@hapi/lab": "^24.5.0",
     "nodemon": "^2.0.15",
     "sequelize-cli": "^6.3.0"
   }

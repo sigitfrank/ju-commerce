@@ -35,6 +35,9 @@ After all the configurations are ready. You have to run command `npm run devStar
 ## `Import Data from Elevenia API`
 To import data products to your database, I provide endpoint BASE_URL_BACKEND/v1/import (ex: [http://localhost:5000/v1/import](http://localhost:5000/v1/import), because I set my backend PORT to `5000`). Please kindly to access this endpoint in your browser to get elevania data into your database. Thank you.
 
+## `Run Test`
+To run the test for Web API, you have to run command `npm run test` and see the result.
+
 # All SET UP!
 After backend is ready, you can use client side properly.
 
