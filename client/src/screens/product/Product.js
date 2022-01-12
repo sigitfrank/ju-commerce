@@ -6,7 +6,6 @@ import DetailProduct from './DetailProduct'
 import DOMPurify from 'dompurify'
 import ProductStore from '../../store/productStore'
 
-
 function Product() {
     const { setProductModalDetail, getProducts, products, getProductDetail, offset, setOffset, isLoading } = ProductStore
     const { accessToken } = getLocalStorage()
@@ -29,13 +28,13 @@ function Product() {
     useEffect(() => {
         const handleScroll = (event) => {
             const element = event.target.scrollingElement;
-            if (element.scrollTop + element.clientHeight == element.scrollHeight) {
+            if (element.scrollTop + element.clientHeight === element.scrollHeight) {
                 setOffset()
             }
         }
         document.addEventListener('scroll', handleScroll)
         return () => document.removeEventListener('scroll', handleScroll)
-    }, [])
+    }, [setOffset])
 
     return (
         <>

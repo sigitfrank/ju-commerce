@@ -1,9 +1,8 @@
 import axios from 'axios'
 import { makeAutoObservable } from 'mobx'
-import { LOGIN_URL, PRODUCTS_URL, REGISTER_URL } from '../api/api'
+import { LOGIN_URL, REGISTER_URL } from '../api/api'
 import loginValidation from '../validations/auth/loginValidation'
 import registerValidation from '../validations/auth/registerValidation'
-import createProductValidation from '../validations/product/createProductValidation'
 
 class Store {
     isAuth = false

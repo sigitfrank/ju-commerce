@@ -6,7 +6,7 @@ import { observer } from 'mobx-react'
 import AppStore from '../../store/store'
 function Register() {
     const navigate = useNavigate()
-    const { register, setRegisterState , postRegister} = AppStore
+    const { register, setRegisterState, postRegister } = AppStore
 
     const [shown, setShown] = useState({
         password: false,
@@ -17,12 +17,13 @@ function Register() {
         if (type === 'confirmPassword') return setShown(prev => ({ ...prev, confirmPassword: !prev.confirmPassword }))
     }
 
-    const handleRegister =async () => {
+    const handleRegister = async () => {
         const res = await postRegister()
-        if(!res) return 
+        if (!res) return
         alert('Register successfully')
         navigate('/login')
     }
+
     return (
         <div className='section-auth'>
             <div className='container'>
