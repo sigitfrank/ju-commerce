@@ -4,8 +4,6 @@ import { LOGIN_URL, PRODUCTS_URL, REGISTER_URL } from '../api/api'
 import createProductValidation from '../validations/createProductValidation'
 
 export class Store {
-    offset = 0
-    limit = 5
     search = ''
     isAuth = false
     login = {
@@ -27,9 +25,18 @@ export class Store {
     productModalDetail = false
     products = []
     product = {}
+    offset = 0
+    limit = 5
+    isLoading = false
+    offsetInfinite = 0
+    limitInfinite = 5
 
     constructor() {
         makeAutoObservable(this)
+    }
+
+    setOffset = ()=>{
+        this.offset = this.offset + 5
     }
 
     setSearch = (value) => {
@@ -147,16 +154,27 @@ export class Store {
         }
     }
 
-    getProducts = async (accessToken) => {
+    getProducts = async ({accessToken, offset}) => {
+        this.isLoading = true
         try {
-            const response = await axios.get(`${PRODUCTS_URL}?offset=${this.offset}&limit=${this.limit}`, {
+            const response = await axios.get(`${PRODUCTS_URL}?offset=${offset}&limit=${this.limit}`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 }
             })
-            this.products = response.data.products
+            this.isLoading = false
+            if(response.data.products.length === 0) {
+                const oldProducts = this.products.slice(this.offsetInfinite, this.limitInfinite)
+                this.limitInfinite += 5
+                this.offsetInfinite += 5
+                this.products = [...this.products, ...oldProducts]
+                return 
+            }
+            if(offset === 0) return this.products = response.data.products
+            this.products = [...this.products, ...response.data.products]
             return true
         } catch (error) {
+            this.isLoading = false
             return false
         }
     }

@@ -5,26 +5,38 @@ import { getLocalStorage } from '../../helpers/localStorage'
 import AppStore from '../../store/store'
 import DetailProduct from './DetailProduct'
 import DOMPurify from 'dompurify'
+
+
 function Product() {
-    const { setProductModalDetail, getProducts, products, getProductDetail } = AppStore
+    const { setProductModalDetail, getProducts, products, getProductDetail, offset, setOffset, isLoading } = AppStore
     const { accessToken } = getLocalStorage()
 
     useEffect(() => {
-        getProducts(accessToken)
-    }, [getProducts, accessToken])
+        getProducts({ accessToken, offset })
+    }, [getProducts, accessToken, offset])
 
     const handleProductDetail = (productId, showModal) => {
-        console.log(productId, showModal)
         setProductModalDetail(showModal)
         getProductDetail({ accessToken, id: productId })
     }
 
-    const renderImg = (product)=>{
-        if(!product.image) return ''
+    const renderImg = (product) => {
+        if (!product.image) return ''
         const isHttp = product.image.includes('http')
-        if(isHttp) return <img src={product.image} alt="product"  onClick={() => handleProductDetail(product.id, true)}/>
+        if (isHttp) return <img src={product.image} alt="product" onClick={() => handleProductDetail(product.id, true)} />
         return <img src={`data:image/jpeg;base64,${product.image}`} alt="product" onClick={() => handleProductDetail(product.id, true)} />
     }
+
+    useEffect(() => {
+        const handleScroll = (event) => {
+            const element = event.target.scrollingElement;
+            if (element.scrollTop + element.clientHeight == element.scrollHeight) {
+                setOffset()
+            }
+        }
+        document.addEventListener('scroll', handleScroll)
+        return () => document.removeEventListener('scroll', handleScroll)
+    }, [])
 
     return (
         <>
@@ -42,7 +54,7 @@ function Product() {
                                             {product.name}
                                         </p>
                                         <p className="card-description"
-                                        dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(product.description || '-') }}
+                                            dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(product.description || '-') }}
                                         >
                                         </p>
                                     </div>
@@ -50,6 +62,8 @@ function Product() {
                             </div>
                         })
                     }
+
+                    {isLoading && <p className='text-center fw-bold'>Loading...</p>}
 
                 </div>
             </div>
