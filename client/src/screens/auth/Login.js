@@ -12,7 +12,7 @@ const Login = () => {
 
     const handleLogin = async () => {
         const res = await postLogin()
-        if (!res) return alert('Something went wrong')
+        if (!res) return 
         setIsAuth(true)
         setLocalStorage(res.accessToken)
         navigate('/')

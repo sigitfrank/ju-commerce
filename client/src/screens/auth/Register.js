@@ -19,7 +19,7 @@ function Register() {
 
     const handleRegister =async () => {
         const res = await postRegister()
-        if(!res) return alert('Something went wrong')
+        if(!res) return 
         alert('Register successfully')
         navigate('/login')
     }

@@ -1,7 +1,9 @@
 import axios from 'axios'
 import { makeAutoObservable } from 'mobx'
 import { LOGIN_URL, PRODUCTS_URL, REGISTER_URL } from '../api/api'
-import createProductValidation from '../validations/createProductValidation'
+import loginValidation from '../validations/auth/loginValidation'
+import registerValidation from '../validations/auth/registerValidation'
+import createProductValidation from '../validations/product/createProductValidation'
 
 export class Store {
     search = ''
@@ -76,6 +78,8 @@ export class Store {
     }
 
     postLogin = async () => {
+        const isValid = loginValidation(this.login)
+        if(!isValid) return
         try {
             const response = await axios.post(LOGIN_URL, {
                 email: this.login.email,
@@ -83,7 +87,7 @@ export class Store {
             })
             return response.data
         } catch (error) {
-            console.log(error)
+            alert(error.response.data.message)
             return false
         }
     }
@@ -94,6 +98,8 @@ export class Store {
     }
 
     postRegister = async () => {
+        const isValid = registerValidation(this.register)
+        if(!isValid) return
         try {
             await axios.post(REGISTER_URL, {
                 fullname: this.register.fullname,
@@ -103,7 +109,7 @@ export class Store {
             })
             return true
         } catch (error) {
-            console.log(error)
+            alert(error.response.data.message)
             return false
         }
     }
