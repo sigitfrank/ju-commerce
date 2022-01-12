@@ -1,5 +1,5 @@
 # Getting Started with Ju-Commerce App
-This app splitted into two parts. The first part is Frontend for the client side and the other one is Backend for the server side.
+This app is splitted into two parts. The first part is Frontend for the client side and the other one is Backend for the server side.
 
 ## Client Side
 To run client side. Open your project in your Code Editor.
