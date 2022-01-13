@@ -64,7 +64,7 @@ class ProductStore {
                 }
             })
             alert('Product created successfully')
-            this.products.push(response.data.data)
+            this.products.unshift(response.data.data)
             return true
         } catch (error) {
             alert(error.response.data.message)

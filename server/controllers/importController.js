@@ -10,7 +10,7 @@ const handleImport = async (request, h) => {
         }
     }
 
-    for (let index = 1; index <= 4; index++) {
+    for (let index = 1; index <= 3; index++) {
         axios.get(`http://api.elevenia.co.id/rest/prodservices/product/listing?page=${index}`, axiosConfig).then(response => {
             const parser = new XMLParser()
             const { Products: { product } } = parser.parse(response.data)
