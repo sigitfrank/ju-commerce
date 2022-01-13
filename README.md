@@ -41,6 +41,9 @@ To run the test for Web API, please copy your userAccessToken from `localStorage
 # All SET UP!
 After backend is ready, you can use client side properly.
 
+# Video Overview
+Here I made video for an overview of this web app. It also includes steps for better installation. Link: [https://youtu.be/khIg8dey1DE](https://youtu.be/khIg8dey1DE)
+
 
 
 
