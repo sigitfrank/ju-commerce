@@ -18,7 +18,7 @@ describe('GET ALL PRODUCTS: /api/v1/products', () => {
             method: 'GET',
             url: '/api/v1/products?offset=0&limit=5',
             headers: {
-                'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwiZnVsbG5hbWUiOiJTaWdpdCBUdW5nZ3VsIFdhc2tpdG8iLCJlbWFpbCI6ImxhbWFyZ3Q3MTlAZ21haWwuY29tIiwiY3JlYXRlZF9hdCI6IjIwMjItMDEtMTBUMTk6MjQ6MjIuNzE2WiIsInVwZGF0ZWRfYXQiOm51bGwsImlhdCI6MTY0MjAxMTExNH0.enSpJN4lGS_924oljYHzjxKZtuCxNRBhllfOdFlqXVg',
+                'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZnVsbG5hbWUiOiJTaWdpdCIsImVtYWlsIjoic2lnaXR0dDUzQGdtYWlsLmNvbSIsImNyZWF0ZWRfYXQiOiIyMDIyLTAxLTEzVDAxOjE2OjE0LjgzNVoiLCJ1cGRhdGVkX2F0IjpudWxsLCJpYXQiOjE2NDIwMzY5Mjd9.sP__EuuNVB_nSoN1RhhlY11aIbMaEE69eULlCVy1eI8',
 
             }
         })
@@ -39,9 +39,9 @@ describe('GET PRODUCT DETAIL: /api/v1/products/{id}', () => {
     it('responds with 200', async () => {
         const res = await server.inject({
             method: 'GET',
-            url: '/api/v1/products/592',
+            url: '/api/v1/products/1',
             headers: {
-                'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwiZnVsbG5hbWUiOiJTaWdpdCBUdW5nZ3VsIFdhc2tpdG8iLCJlbWFpbCI6ImxhbWFyZ3Q3MTlAZ21haWwuY29tIiwiY3JlYXRlZF9hdCI6IjIwMjItMDEtMTBUMTk6MjQ6MjIuNzE2WiIsInVwZGF0ZWRfYXQiOm51bGwsImlhdCI6MTY0MjAxMTExNH0.enSpJN4lGS_924oljYHzjxKZtuCxNRBhllfOdFlqXVg',
+                'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZnVsbG5hbWUiOiJTaWdpdCIsImVtYWlsIjoic2lnaXR0dDUzQGdtYWlsLmNvbSIsImNyZWF0ZWRfYXQiOiIyMDIyLTAxLTEzVDAxOjE2OjE0LjgzNVoiLCJ1cGRhdGVkX2F0IjpudWxsLCJpYXQiOjE2NDIwMzY5Mjd9.sP__EuuNVB_nSoN1RhhlY11aIbMaEE69eULlCVy1eI8',
 
             }
         })
@@ -62,9 +62,9 @@ describe('DELETE PRODUCT DETAIL: /api/v1/products/{id}', () => {
     it('responds with 200', async () => {
         const res = await server.inject({
             method: 'DELETE',
-            url: '/api/v1/products/208',
+            url: '/api/v1/products/1',
             headers: {
-                'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwiZnVsbG5hbWUiOiJTaWdpdCBUdW5nZ3VsIFdhc2tpdG8iLCJlbWFpbCI6ImxhbWFyZ3Q3MTlAZ21haWwuY29tIiwiY3JlYXRlZF9hdCI6IjIwMjItMDEtMTBUMTk6MjQ6MjIuNzE2WiIsInVwZGF0ZWRfYXQiOm51bGwsImlhdCI6MTY0MjAxMTExNH0.enSpJN4lGS_924oljYHzjxKZtuCxNRBhllfOdFlqXVg',
+                'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZnVsbG5hbWUiOiJTaWdpdCIsImVtYWlsIjoic2lnaXR0dDUzQGdtYWlsLmNvbSIsImNyZWF0ZWRfYXQiOiIyMDIyLTAxLTEzVDAxOjE2OjE0LjgzNVoiLCJ1cGRhdGVkX2F0IjpudWxsLCJpYXQiOjE2NDIwMzY5Mjd9.sP__EuuNVB_nSoN1RhhlY11aIbMaEE69eULlCVy1eI8',
 
             }
         })
