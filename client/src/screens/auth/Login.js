@@ -24,7 +24,7 @@ const Login = () => {
                 <div className="row justify-content-center">
                     <div className="col-lg-6">
                         <div className="card">
-                            <h2>Welcome to My App</h2>
+                            <h2>Welcome to Ju Commerce</h2>
                             <div className="form-group">
                                 <label htmlFor=""></label>
                                 <input type="text" value={login.email} onChange={(e) => setLoginState(e.target.value, 'email')} name="email" id="email" className="form-control" placeholder="ex: sigit@gmail.com" />
