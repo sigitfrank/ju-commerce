@@ -5,6 +5,7 @@ import { getLocalStorage } from '../../helpers/localStorage'
 import DOMPurify from 'dompurify'
 import ProductStore from '../../store/productStore'
 import changeImage from '../../helpers/changeImage'
+import { BASE_URL_SERVER } from '../../api/api'
 
 const customStyles = {
     overlay: {
@@ -57,10 +58,9 @@ function DetailProduct() {
 
     const renderImg = (product) => {
         if (!product.image) return <img ref={imageEl} src={'https://esmokeoutlet.com/assets/front/fashi/img/products/default.png'} alt="product" className='img-fluid' style={{ height: '500px', objectFit: 'cover' }} />
-        let isHttp = ''
-        if (typeof product.image !== 'object') isHttp = product.image.includes('http')
-        if (isHttp) return <img ref={imageEl} src={product.image} alt="product" className='img-fluid' style={{ height: '500px', objectFit: 'cover' }} />
-        return <img ref={imageEl} src={`data:image/jpeg;base64,${product.image}`} alt="product" className='img-fluid' style={{ height: '500px', objectFit: 'cover' }} />
+        if (typeof product.image === 'object') return <img ref={imageEl} src={URL.createObjectURL(product.image)} alt="product" className='img-fluid' style={{ height: '500px', objectFit: 'cover' }} />
+        if (product.image.includes('http')) return <img ref={imageEl} src={product.image} alt="product" className='img-fluid' style={{ height: '500px', objectFit: 'cover' }} />
+        return <img ref={imageEl} src={`${BASE_URL_SERVER}/image/${product.image}`} alt="product" className='img-fluid' style={{ height: '500px', objectFit: 'cover' }} />
     }
     return (
         <div>

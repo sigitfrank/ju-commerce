@@ -29,6 +29,14 @@ const init = async () => {
             verifyOptions: { algorithms: ['HS256'] }
         })
     // server.auth.default('jwt')
+    server.route({
+        method: 'GET',
+        path: '/image/{filename}',
+        handler: function (request, h) {
+            const { filename } = request.params
+            return h.file(`./public/assets/${filename}`);
+        }
+    });
     server.route([
         ...authRoutes,
         ...productRoutes,

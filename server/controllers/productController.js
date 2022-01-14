@@ -4,6 +4,8 @@ const Boom = require('@hapi/boom')
 const { v4: uuidv4 } = require('uuid')
 const fs = require('fs')
 const createProductValidation = require('../validations/product/createProductValidation.js')
+const handleFileUpload = require('../helpers/handleFileUpload.js')
+const { unlink } = require('fs/promises')
 
 const handleGetProducts = async (request, h) => {
     const { offset, limit } = request.query
@@ -36,11 +38,13 @@ const handleCreateProduct = async (request, h) => {
     const { status, message } = createProductValidation(request.payload)
     try {
         if (!status) throw Error(message)
-        const file = fs.readFileSync(image.path)
-        const base64String = Buffer.from(file).toString('base64')
+        const bufferFile = fs.promises.readFile(image.path);
+        const filename = `${Date.now()}-${image.filename.replace(/ /g, "_")}`
+        const { isUploaded, messageimage } = await bufferFile.then((buffer) => handleFileUpload(buffer, filename))
+        if (!isUploaded) throw Error(messageimage)
         const queryInsert = {
             text: 'INSERT INTO products (sku, name, image, price, description, created_at) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
-            values: [uuidv4(), name, base64String, price, description, new Date()],
+            values: [uuidv4(), name, filename, price, description, new Date()],
         }
         const response = await pool.query(queryInsert)
         return {
@@ -57,14 +61,16 @@ const handleUpdateProduct = async (request, h) => {
     const { status, message } = createProductValidation(request.payload, 'UPDATE')
     try {
         if (!status) throw Error(message)
-        let base64String = image
+        let filename = image
         if (image.path) {
-            const file = fs.readFileSync(image.path)
-            base64String = Buffer.from(file).toString('base64')
+            const bufferFile = fs.promises.readFile(image.path);
+            filename = `${Date.now()}-${image.filename.replace(/ /g, "_")}`
+            const { isUploaded, messageimage } = await bufferFile.then((buffer) => handleFileUpload(buffer, filename))
+            if (!isUploaded) throw Error(messageimage)
         }
         const queryUpdate = {
             text: 'UPDATE products SET name = $1, image = $2, price = $3, description = $4, updated_at = $5 WHERE id = $6',
-            values: [name, base64String, price, description, new Date(), id],
+            values: [name, filename, price, description, new Date(), id],
         }
         const response = await pool.query(queryUpdate)
         return {
@@ -79,7 +85,15 @@ const handleUpdateProduct = async (request, h) => {
 const handleDeleteProduct = async (request, h) => {
     const { id } = request.params
     try {
-        const response = await pool.query('DELETE FROM products WHERE id = $1', [id])
+        const response = await pool.query('DELETE FROM products WHERE id = $1 RETURNING *', [id])
+        const oldImg = response.rows[0].image
+        if (oldImg) {
+            try {
+                if (fs.existsSync(`./public/assets/${oldImg}`)) await unlink(`./public/assets/${oldImg}`);
+            } catch (error) {
+                console.error('there was an error:', error.message);
+            }
+        }
         return {
             status: true,
             product: response.rowCount

@@ -5,6 +5,7 @@ import { getLocalStorage } from '../../helpers/localStorage'
 import DetailProduct from './DetailProduct'
 import DOMPurify from 'dompurify'
 import ProductStore from '../../store/productStore'
+import { BASE_URL_SERVER } from '../../api/api'
 
 function Product() {
     const { setProductModalDetail, getProducts, products, getProductDetail, offset, setOffset, isLoading } = ProductStore
@@ -19,10 +20,10 @@ function Product() {
         getProductDetail({ accessToken, id: productId })
     }
     const renderImg = (product) => {
-        if (!product.image) return <img src={'https://esmokeoutlet.com/assets/front/fashi/img/products/default.png'} alt="product" onClick={() => handleProductDetail(product.id, true)} />
+        if (!product.image) return <img src={'https://esmokeoutlet.com/assets/front/fashi/img/products/default.png'} alt="product" />
         const isHttp = product.image.includes('http')
-        if (isHttp) return <img src={product.image} alt="product" onClick={() => handleProductDetail(product.id, true)} />
-        return <img src={`data:image/jpeg;base64,${product.image}`} alt="product" onClick={() => handleProductDetail(product.id, true)} />
+        if (isHttp) return <img src={product.image} alt="product"/>
+        return <img src={`${BASE_URL_SERVER}/image/${product.image}`} alt="product"/>
     }
 
     useEffect(() => {
@@ -42,7 +43,7 @@ function Product() {
                 <div className="row">
                     {
                         products && products.map(product => {
-                            return <div className="col-lg-4" key={product.id} style={{ cursor: 'pointer' }}>
+                            return <div className="col-lg-4" key={product.id} style={{ cursor: 'pointer' }} onClick={() => handleProductDetail(product.id, true)}>
                                 <div className="card">
                                     <div className="card-header text-center">
                                         {renderImg(product)}

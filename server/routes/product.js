@@ -27,7 +27,7 @@ const createProduct = () => {
         config: {
             auth: 'jwt',
             payload: {
-                // maxBytes: 1024 * 1024 * 5,
+                maxBytes: 1024 * 1024 * 5,
                 output: 'file',
                 parse: true,
                 multipart: true,
@@ -45,7 +45,7 @@ const updateProduct = () => {
         config: {
             auth: 'jwt',
             payload: {
-                // maxBytes: 1024 * 1024 * 5,
+                maxBytes: 1024 * 1024 * 5,
                 output: 'file',
                 parse: true,
                 multipart: true,
