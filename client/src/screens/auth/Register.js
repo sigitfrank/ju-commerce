@@ -6,16 +6,7 @@ import { observer } from 'mobx-react'
 import AppStore from '../../store/store'
 function Register() {
     const navigate = useNavigate()
-    const { register, setRegisterState, postRegister } = AppStore
-
-    const [shown, setShown] = useState({
-        password: false,
-        confirmPassword: false
-    })
-    const handleTogglePassword = (type) => {
-        if (type === 'password') return setShown(prev => ({ ...prev, password: !prev.password }))
-        if (type === 'confirmPassword') return setShown(prev => ({ ...prev, confirmPassword: !prev.confirmPassword }))
-    }
+    const { register, setRegisterState, postRegister, registerPasswordShown, setRegisterPasswordShown } = AppStore
 
     const handleRegister = async () => {
         const res = await postRegister()
@@ -44,9 +35,9 @@ function Register() {
                             <div className="form-group">
                                 <label htmlFor=""></label>
                                 <div style={{ position: 'relative' }}>
-                                    <input type={shown.password ? 'text' : 'password'} value={register.password} onChange={(e) => setRegisterState(e.target.value, 'password')} name="password" id="password" className="form-control" placeholder="******" />
-                                    <span style={{ position: 'absolute', top: "5px", right: '10px', cursor: 'pointer' }} onClick={() => handleTogglePassword('password')}>
-                                        {shown.password ? <Eye /> : <ClosedEye />}
+                                    <input type={registerPasswordShown.password ? 'text' : 'password'} value={register.password} onChange={(e) => setRegisterState(e.target.value, 'password')} name="password" id="password" className="form-control" placeholder="******" />
+                                    <span style={{ position: 'absolute', top: "5px", right: '10px', cursor: 'pointer' }} onClick={() => setRegisterPasswordShown(!registerPasswordShown.password, 'password')}>
+                                        {registerPasswordShown.password ? <Eye /> : <ClosedEye />}
                                     </span>
                                 </div>
                                 <small id="helpId" className="text-muted">Password</small>
@@ -54,9 +45,9 @@ function Register() {
                             <div className="form-group">
                                 <label htmlFor=""></label>
                                 <div style={{ position: 'relative' }}>
-                                    <input type={shown.confirmPassword ? 'text' : 'password'} value={register.confirmPassword} onChange={(e) => setRegisterState(e.target.value, 'confirmPassword')} name="confirmPassword" id="confirmPassword" className="form-control" placeholder="******" />
-                                    <span style={{ position: 'absolute', top: "5px", right: '10px', cursor: 'pointer' }} onClick={() => handleTogglePassword('confirmPassword')}>
-                                        {shown.confirmPassword ? <Eye /> : <ClosedEye />}
+                                    <input type={registerPasswordShown.confirmPassword ? 'text' : 'password'} value={register.confirmPassword} onChange={(e) => setRegisterState(e.target.value, 'confirmPassword')} name="confirmPassword" id="confirmPassword" className="form-control" placeholder="******" />
+                                    <span style={{ position: 'absolute', top: "5px", right: '10px', cursor: 'pointer' }} onClick={() => setRegisterPasswordShown(!registerPasswordShown.confirmPassword, 'confirmPassword')}>
+                                        {registerPasswordShown.confirmPassword ? <Eye /> : <ClosedEye />}
                                     </span>
                                 </div>
                                 <small id="helpId" className="text-muted">Confirm Password</small>

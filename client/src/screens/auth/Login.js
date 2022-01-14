@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import '../../css/auth.css'
 import { useNavigate } from "react-router-dom"
 import { ClosedEye, Eye } from '../../components/Icons/Eyes'
@@ -7,8 +7,7 @@ import AppStore from '../../store/store'
 import { setLocalStorage } from '../../helpers/localStorage'
 const Login = () => {
     const navigate = useNavigate()
-    const [shown, setShown] = useState(false)
-    const { login, setLoginState, postLogin, setIsAuth } = AppStore
+    const { login, setLoginState, postLogin, setIsAuth, setLoginPasswordShown, loginPasswordShown } = AppStore
 
     const handleLogin = async () => {
         const res = await postLogin()
@@ -33,9 +32,9 @@ const Login = () => {
                             <div className="form-group">
                                 <label htmlFor=""></label>
                                 <div style={{ position: 'relative' }}>
-                                    <input value={login.password} type={shown ? 'text' : 'password'} onChange={(e) => setLoginState(e.target.value, 'password')} name="password" id="password" className="form-control" placeholder="******" />
-                                    <span style={{ position: 'absolute', top: "5px", right: '10px', cursor: 'pointer' }} onClick={() => setShown(prev => !prev)}>
-                                        {shown ? <Eye /> : <ClosedEye />}
+                                    <input value={login.password} type={loginPasswordShown ? 'text' : 'password'} onChange={(e) => setLoginState(e.target.value, 'password')} name="password" id="password" className="form-control" placeholder="******" />
+                                    <span style={{ position: 'absolute', top: "5px", right: '10px', cursor: 'pointer' }} onClick={() => setLoginPasswordShown(!loginPasswordShown)}>
+                                        {loginPasswordShown ? <Eye /> : <ClosedEye />}
                                     </span>
                                 </div>
                                 <small id="helpId" className="text-muted">Password</small>

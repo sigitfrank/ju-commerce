@@ -2,6 +2,7 @@ import { observer } from 'mobx-react'
 import React, { useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Header from '../../components/layout/Header'
+import changeImage from '../../helpers/changeImage'
 import checkFileType from '../../helpers/checkFileType'
 import { getLocalStorage } from '../../helpers/localStorage'
 import ProductStore from '../../store/productStore'
@@ -13,19 +14,14 @@ function AddProduct() {
     const { accessToken } = getLocalStorage()
 
     const handleChangeImage = (e) => {
-        const imageFile = e.target.files[0]
-        const imageUrl = URL.createObjectURL(imageFile)
-        const fileType = imageFile.type
-        const isMimetypeValid = checkFileType(fileType)
-        if (!isMimetypeValid) return alert('Only image/jpeg or image/png')
-        imageEl.current.src = imageUrl
-        imageEl.current.classList.remove('d-none')
+        const { isValid, imageFile, message } = changeImage({ e, refEl: imageEl })
+        if (!isValid) return alert(message)
         setCreateProduct(imageFile, 'image')
     }
 
-    const handleCreateProduct = async ()=>{
+    const handleCreateProduct = async () => {
         const res = await postCreateProduct(accessToken)
-        if(!res) return
+        if (!res) return
         navigate('/')
     }
     return (<>

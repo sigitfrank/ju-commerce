@@ -10,6 +10,12 @@ class Store {
         email: '',
         password: ''
     }
+    loginPasswordShown = false
+    registerPasswordShown = {
+        password: false,
+        confirmPassword: false
+    }
+
     register = {
         fullname: '',
         email: '',
@@ -19,6 +25,14 @@ class Store {
 
     constructor() {
         makeAutoObservable(this)
+    }
+
+    setLoginPasswordShown = (value) => {
+        this.loginPasswordShown = value
+    }
+    setRegisterPasswordShown = (value, type) => {
+        if (type === 'password') return this.registerPasswordShown.password = value
+        if (type === 'confirmPassword') return this.registerPasswordShown.confirmPassword = value
     }
 
     setIsAuth = (value) => {
@@ -38,7 +52,7 @@ class Store {
 
     postLogin = async () => {
         const isValid = loginValidation(this.login)
-        if(!isValid) return
+        if (!isValid) return
         try {
             const response = await axios.post(LOGIN_URL, {
                 email: this.login.email,
@@ -46,6 +60,7 @@ class Store {
             })
             return response.data
         } catch (error) {
+            console.log(error)
             alert(error.response.data.message)
             return false
         }
@@ -58,7 +73,7 @@ class Store {
 
     postRegister = async () => {
         const isValid = registerValidation(this.register)
-        if(!isValid) return
+        if (!isValid) return
         try {
             await axios.post(REGISTER_URL, {
                 fullname: this.register.fullname,

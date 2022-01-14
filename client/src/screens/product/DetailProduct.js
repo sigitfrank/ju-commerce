@@ -1,10 +1,10 @@
 import { observer } from 'mobx-react'
-import React, { useRef, useState } from 'react'
+import React, { useRef } from 'react'
 import Modal from 'react-modal'
-import checkFileType from '../../helpers/checkFileType'
 import { getLocalStorage } from '../../helpers/localStorage'
 import DOMPurify from 'dompurify'
 import ProductStore from '../../store/productStore'
+import changeImage from '../../helpers/changeImage'
 
 const customStyles = {
     overlay: {
@@ -29,21 +29,13 @@ const customStyles = {
 
 function DetailProduct() {
     const { accessToken } = getLocalStorage()
-
     const imageEl = useRef(null)
-    const [editable, setEditable] = useState(false)
-    const { getProducts, getProductDetail, offset, productModalDetail, setProductModalDetail, deleteProduct, product, setDetailProduct, putUpdateProduct } = ProductStore
-    function afterOpenModal() {
+    const { getProducts, getProductDetail, offset, productModalDetail, setProductModalDetail, deleteProduct, product, setDetailProduct, putUpdateProduct, setEditable, editable } = ProductStore
 
-    }
     function closeModal() {
         setProductModalDetail(false)
         getProductDetail({ accessToken, id: product.id })
         getProducts({ accessToken, offset })
-    }
-
-    const handleUpdateProduct = () => {
-        putUpdateProduct(accessToken)
     }
 
     const handleDeleteProduct = async () => {
@@ -54,18 +46,13 @@ function DetailProduct() {
     }
 
     const handleChangeImage = (e) => {
-        const imageFile = e.target.files[0]
-        const imageUrl = URL.createObjectURL(imageFile)
-        const fileType = imageFile.type
-        const isMimetypeValid = checkFileType(fileType)
-        if (!isMimetypeValid) return alert('Only image/jpeg or image/png')
-        imageEl.current.src = imageUrl
-        imageEl.current.classList.remove('d-none')
+        const { isValid, imageFile, message } = changeImage({ e, refEl: imageEl })
+        if (!isValid) return alert(message)
         setDetailProduct(imageFile, 'image')
     }
     const handleToggleEditable = () => {
         getProductDetail({ accessToken, id: product.id })
-        setEditable(prev => !prev)
+        setEditable(!editable)
     }
 
     const renderImg = (product) => {
@@ -79,16 +66,13 @@ function DetailProduct() {
         <div>
             <Modal
                 isOpen={productModalDetail}
-                onAfterOpen={afterOpenModal}
                 onRequestClose={closeModal}
                 style={customStyles}
                 contentLabel="Detail Product"
             >
                 <div className="row">
                     <div className="col-lg-7 d-flex align-items-center">
-                        {
-                            renderImg(product)
-                        }
+                        {renderImg(product)}
                     </div>
                     <div className="col-lg-5"
                     >
@@ -96,14 +80,11 @@ function DetailProduct() {
                             editable ? <FormEdit product={product} handleChangeImage={handleChangeImage} /> : <DetailInfo product={product} />
                         }
                         <div className="button-wrapper mt-3">
-                            {
-                                editable && <button className="btn secondary me-1" onClick={() => handleUpdateProduct()}>
-                                    Update
-                                </button>
-                            }
                             <button className='btn primary mx-1' onClick={handleToggleEditable}>{editable ? 'Cancel' : 'Edit'}</button>
                             {
-                                !editable &&
+                                editable ? <button className="btn secondary me-1" onClick={() => putUpdateProduct(accessToken)}>
+                                    Update
+                                </button> : !editable &&
                                 <button className="btn secondary me-1" onClick={() => handleDeleteProduct()}>
                                     Delete
                                 </button>
@@ -125,7 +106,7 @@ const DetailInfo = observer(({ product }) => {
         <p>Price: IDR {product.price}</p>
         <hr />
         <p>Description:</p>
-        <p dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(product.description || '-') }}>{ }</p>
+        <p dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(`${product.description}` || '-') }}></p>
     </div>
 })
 

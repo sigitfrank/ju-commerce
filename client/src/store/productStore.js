@@ -19,9 +19,14 @@ class ProductStore {
     isLoading = false
     offsetInfinite = 0
     limitInfinite = 5
+    editable = false
 
     constructor() {
         makeAutoObservable(this)
+    }
+
+    setEditable = (value)=>{
+        this.editable = value
     }
 
     setOffset = () => {
