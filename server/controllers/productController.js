@@ -10,7 +10,7 @@ const { unlink } = require('fs/promises')
 const handleGetProducts = async (request, h) => {
     const { offset, limit } = request.query
     try {
-        const response = await pool.query(`SELECT id, sku, name, image, description FROM products ORDER BY id DESC OFFSET ${offset} LIMIT ${limit}`)
+        const response = await pool.query(`SELECT id, sku, name, image, description FROM products ORDER BY updated_at DESC OFFSET ${offset} LIMIT ${limit}`)
         return {
             status: true,
             products: response.rows,
@@ -42,9 +42,10 @@ const handleCreateProduct = async (request, h) => {
         const filename = `${Date.now()}-${image.filename.replace(/ /g, "_")}`
         const { isUploaded, messageimage } = await bufferFile.then((buffer) => handleFileUpload(buffer, filename))
         if (!isUploaded) throw Error(messageimage)
+        const date = new Date()
         const queryInsert = {
-            text: 'INSERT INTO products (sku, name, image, price, description, created_at) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
-            values: [uuidv4(), name, filename, price, description, new Date()],
+            text: 'INSERT INTO products (sku, name, image, price, description, created_at, updated_at) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
+            values: [uuidv4(), name, filename, price, description, date, date],
         }
         const response = await pool.query(queryInsert)
         return {
